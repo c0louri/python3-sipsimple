@@ -1279,7 +1279,12 @@ cdef class Invitation:
             raise PJSIPError("failed to acquire lock", status)
         try:
             prev_state = self.transfer_state
-            timer_state = timer.state.decode()
+            timer_state = timer.state
+            try:
+                timer_state_decoded = timer_state.decode()
+                timer_state = timer_state_decoded
+            except:
+                pass
 
             self._set_transfer_state(timer_state)
 
